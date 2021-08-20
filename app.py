@@ -8,4 +8,4 @@ def hello_world():
 
 @app.route("/join")
 def join():
-    return "<p>bambang</p>"
+    return "<p>bambang pamungkas</p>"
