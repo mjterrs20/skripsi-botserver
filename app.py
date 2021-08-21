@@ -1,5 +1,5 @@
 import numpy as np
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 
 bilangan = [10,11,12,18,20]
 rizki ="testing aja"
@@ -10,7 +10,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello_world():
-    return "<p>Hello, World!</p>"
+    return render_template('index.html')
 
 @app.route("/join")
 def join():
