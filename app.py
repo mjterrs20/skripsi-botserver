@@ -1,10 +1,5 @@
-import numpy as np
 from flask import Flask, request, jsonify, render_template
 
-bilangan = [10,11,12,18,20]
-rizki ="testing aja"
-npScore = np.array(bilangan)
-maxScore = np.amax(npScore)
 
 app = Flask(__name__)
 
@@ -12,9 +7,6 @@ app = Flask(__name__)
 def hello_world():
     return render_template('index.html')
 
-@app.route("/join")
-def join():
-    return "<p>bambang pamungkas</p>"
 
 @app.route("/login", methods= ['POST'])
 def login():
@@ -26,6 +18,3 @@ def login():
     except KeyError as e:
         return str(e)
 
-@app.route("/test")
-def test():
-    return str(maxScore)
