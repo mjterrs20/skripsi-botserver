@@ -55,7 +55,6 @@ body{
 }
 .info-panel h4{
     font-size: 16px;
-    text-transform: uppercase;
     font-weight: bold;
     margin-top: 5px;
     color: black;
@@ -64,7 +63,7 @@ body{
     font-size: 14px;
     font-weight: bold;
     margin-top: -5px;
-    color: #acacac; 
+    color: #7a7878; 
     font-weight: 200;
 }
 .info-panel a:hover{
@@ -80,7 +79,7 @@ body{
     border-radius: 10px;
 }
 .tentang{
-    margin-top: 0px;
+    margin-top: 250px;
 }
 .tentang a.btn-full{
     background-color: #5AAC7B;
@@ -209,6 +208,9 @@ footer img{
     .card img{
         height: 100px;
         width: relative;
+    }
+    .tentang{
+        margin-top: 10px;
     }
  }
 
