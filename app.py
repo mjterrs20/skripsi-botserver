@@ -1,8 +1,10 @@
 import json
+import rake
 from flask import Flask, request, jsonify, render_template
 from keras.models import load_model
 from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
+
 
 app = Flask(__name__)
 
@@ -21,12 +23,13 @@ for i in range(len(data['items'])):
 tokenizer = Tokenizer()
 tokenizer.fit_on_texts(datas)
 
+# Load Rake
+r = rake.Rake("Stopword.txt")
+
 # route duniawi
 @app.route("/")
 def hello_world():
     return render_template('index.html')
-
-
 
 @app.route("/chat", methods= ['POST'])
 def question():
@@ -37,6 +40,11 @@ def question():
         })
     except KeyError as e:
         return str(e)
+
+@app.route("/rake", methods= ['POST'])
+def test_rake():
+    keywords = r.run(request.form['quest'])
+    return str(keywords)
 
 def cnn_predict(quest):
     puretext = tokenizer.texts_to_sequences([quest])
