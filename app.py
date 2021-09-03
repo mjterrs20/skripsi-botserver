@@ -14,7 +14,7 @@ app = Flask(__name__)
 # load data using Python JSON module
 dataset = []
 questions = []
-with open('chatbot_eksyar.json','r') as f:
+with open('haji_dataset_final_banget.json','r') as f:
     data = json.loads(f.read())
 
 # add dataset from data
@@ -22,8 +22,8 @@ for i in range(len(data['items'])):
     dataset.append(data['items'])
 
 # load cnn model
-model = load_model("cnn_model.h5")
-labels = ['asuransi', 'bank', 'eksyar', 'investasi', 'reksadana']
+model = load_model("cnn_model_haji_v1.h5")
+labels = ['armuzna', 'badal', 'dam', 'haji', 'ihram', 'jumrah','manasik','miqat', 'perempuan', 'sai','sakit','tahalul', 'tempat_khusus', 'thawaf', 'umrah']
 
 # Tokonizer
 for i in range(len(dataset)):
