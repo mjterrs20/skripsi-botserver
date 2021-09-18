@@ -7,10 +7,6 @@
 import re
 import operator
 
-debug = False
-test = True
-
-
 def is_number(s):
     try:
         float(s) if '.' in s else int(s)
@@ -142,4 +138,3 @@ class Rake(object):
         sorted_keywords = sorted(keyword_candidates.items(), key=operator.itemgetter(1), reverse=True)
         rank_keyword = keyword_not_score(sorted_keywords)
         return rank_keyword
-
