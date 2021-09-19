@@ -23,7 +23,7 @@ for i in range(len(data['items'])):
     dataset.append(data['items'])
 
 # load cnn model
-model = load_model("cnn_steaming.h5")
+model = load_model("cnn_steaming_v2.h5")
 labels = ['armuzna', 'badal', 'dam', 'haji', 'ihram', 'jumrah','manasik','miqat', 'perempuan', 'sai','sakit','tahalul', 'tempat_khusus', 'thawaf', 'umrah']
 
 # Tokonizer
@@ -58,7 +58,7 @@ def test():
 def question():
     try: 
         preQuest = preprocesing(request.form['quest'])
-        label = cnn_predict([preQuest])
+        label = cnn_predict(preQuest)
         npQuestion , npAnswer = get_df(label)
         tempRake, qRake = rake_question(npQuestion, preQuest)
         tempCounter, counterQuestUser = counter_result(tempRake, qRake)
@@ -80,7 +80,7 @@ def test_rake():
     return str(keywords)
 
 # ========   START TEXT PREPOCESSING   =============
-# melakukan Preprocesing terlebih dahulu terhadap Question
+# Melakukan Preprocesing terlebih dahulu terhadap Question
 # 1. Regex (hapus tanda baca & lowercase)
 # 2. Normalization
 # 3. Streaming
