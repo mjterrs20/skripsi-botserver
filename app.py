@@ -7,14 +7,15 @@ from keras.models import load_model
 from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
 from collections import Counter
+from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 
 
 app = Flask(__name__)
 
 # load data using Python JSON module
 dataset = []
-questions = []
-with open('haji_dataset_final_banget.json','r') as f:
+questions = [] # menggunkan question yang telah di streaming sebelumnya
+with open('data.json','r') as f:
     data = json.loads(f.read())
 
 # add dataset from data
@@ -22,15 +23,24 @@ for i in range(len(data['items'])):
     dataset.append(data['items'])
 
 # load cnn model
-model = load_model("cnn_model_haji_v1.h5")
+model = load_model("cnn_steaming.h5")
 labels = ['armuzna', 'badal', 'dam', 'haji', 'ihram', 'jumrah','manasik','miqat', 'perempuan', 'sai','sakit','tahalul', 'tempat_khusus', 'thawaf', 'umrah']
 
 # Tokonizer
 for i in range(len(dataset)):
-    questions.append(data['items'][i]["questions"])
+    questions.append(data['items'][i]["steaming"])
 tokenizer = Tokenizer()
 tokenizer.fit_on_texts(questions)
 
+# Load data normalization
+# Data yang beberapa akan dilakukan normalisasi
+with open('normalisasi.json','r') as f:
+    data_normalization = json.loads(f.read())
+
+# Inisialisasi Untuk Streaming
+factory = StemmerFactory()
+stemmer = factory.create_stemmer()
+    
 # Load Rake
 r = rake.Rake("Stopword.txt")
 
@@ -39,17 +49,25 @@ r = rake.Rake("Stopword.txt")
 def hello_world():
     return render_template('index.html')
 
+@app.route("/test", methods= ['POST'])
+def test():
+    result_ww = preprocesing(request.form['quest'])
+    return result_ww
+
 @app.route("/chat", methods= ['POST'])
 def question():
     try: 
-        label = cnn_predict(request.form['quest'])
+        preQuest = preprocesing(request.form['quest'])
+        label = cnn_predict([preQuest])
         npQuestion , npAnswer = get_df(label)
-        tempRake, qRake = rake_question(npQuestion, request.form['quest'])
+        tempRake, qRake = rake_question(npQuestion, preQuest)
         tempCounter, counterQuestUser = counter_result(tempRake, qRake)
         maxScore, indexQuest = score_cosine(tempCounter, counterQuestUser)
         return jsonify({
+            # bisa menampilkan hasil RAKE
             'label' : label,
             'max_score ': str(maxScore),
+            'question_rake': qRake,
             'quest': npQuestion[indexQuest],
             'ans': npAnswer[indexQuest],
         })
@@ -61,6 +79,42 @@ def test_rake():
     keywords = r.run(request.form['quest'])
     return str(keywords)
 
+# ========   START TEXT PREPOCESSING   =============
+# melakukan Preprocesing terlebih dahulu terhadap Question
+# 1. Regex (hapus tanda baca & lowercase)
+# 2. Normalization
+# 3. Streaming
+
+character = '!"#$%&()*+,./:;<=>?@[\]^_`{|}~\'0123456789'
+# Defining the function to remove punctuation
+def remove_punctuation(text):
+    punctuationfree="".join([i for i in text if i not in character])
+    return punctuationfree
+
+# Fungsi untuk melakukan Normalisasi
+def normalization(tokens):
+    for idx, items in enumerate(tokens):
+        for j in range(len(data_normalization['items'])):
+            if items == data_normalization['items'][j]['before']:
+                tokens[idx] = data_normalization['items'][j]['after']
+    result_normalized = " ".join(tokens)
+    return result_normalized
+
+# Tahapan Preprocesing
+def preprocesing(quest):
+    # Regex & Case Folding
+    res = remove_punctuation(quest).lower()
+    # Tokenizing
+    tokens = res.split()
+    # Normalisasi 
+    norm = normalization(tokens)
+    # Streaming (Menggunakan Library Sastrawi)
+    streaming = stemmer.stem(norm)
+    return streaming
+
+# ========  END TEXT PREPOCESSING   =============
+
+
 # memprediksi label menggunakan Algoritma CNN
 def cnn_predict(quest):
     puretext = tokenizer.texts_to_sequences([quest])
@@ -68,14 +122,14 @@ def cnn_predict(quest):
     predicted = model.predict(text_pad)
     index_label = predicted.argmax()
     return labels[index_label]
-
+   
 # 1. mendefinisikan terlebih dahulu data
 def get_df(label):
     npQuestions = []
     npAnswers = []
     for i in range(len(dataset)):
         if data['items'][i]["labels"] == label:
-            npQuestions.append(data['items'][i]['questions'])
+            npQuestions.append(data['items'][i]['steaming'])
             npAnswers.append(data['items'][i]['answers'])
     return npQuestions,npAnswers
 

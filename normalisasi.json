@@ -1,0 +1,24 @@
+{
+    "items": [
+        {
+            "before": "tahallul",
+            "after": "tahalul"
+        },
+        {
+            "before": "towaf",
+            "after": "thawaf"
+        },
+        {
+            "before": "tawaf",
+            "after": "thawaf"
+        },
+        {
+            "before": "thowaf",
+            "after": "thawaf"
+        },
+        {
+            "before": "yg",
+            "after": "yang"
+        }
+    ]
+}
