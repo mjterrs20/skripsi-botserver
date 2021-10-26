@@ -1,8 +1,16 @@
 {
     "items": [
         {
-            "before": "tahallul",
-            "after": "tahalul"
+            "before": "yg",
+            "after": "yang"
+        },
+        {
+            "before": "dgn",
+            "after": "dengan"
+        },
+        {
+            "before": "tahalul",
+            "after": "tahallul"
         },
         {
             "before": "towaf",
@@ -17,8 +25,188 @@
             "after": "thawaf"
         },
         {
-            "before": "yg",
-            "after": "yang"
+            "before": "hajj",
+            "after": "haji"
+        },
+        {
+            "before": "umroh",
+            "after": "umrah"
+        },
+        {
+            "before": "ihrom",
+            "after": "ihram"
+        },
+        {
+            "before": "towaf",
+            "after": "thawaf"
+        },
+        {
+            "before": "tawaf",
+            "after": "thawaf"
+        },
+        {
+            "before": "thowaf",
+            "after": "thawaf"
+        },
+        {
+            "before": "jamaah",
+            "after": "jemaah"
+        },
+        {
+            "before": "jamah",
+            "after": "jemaah"
+        },
+        {
+            "before": "minna",
+            "after": "mina"
+        },
+        {
+            "before": "sunnah",
+            "after": "sunah"
+        },
+        {
+            "before": "musdalifah",
+            "after": "muzdalifah"
+        },
+        {
+            "before": "musdalipah",
+            "after": "muzdalifah"
+        },
+        {
+            "before": "muzdalipah",
+            "after": "muzdalifah"
+        },
+        {
+            "before": "ifadah",
+            "after": "ifadhah"
+        },
+        {
+            "before": "ifodah",
+            "after": "ifadhah"
+        },
+        {
+            "before": "marwa",
+            "after": "marwah"
+        },
+        {
+            "before": "munazat",
+            "after": "munajat"
+        },
+        {
+            "before": "mahrom",
+            "after": "mahram"
+        },
+        {
+            "before": "makah",
+            "after": "makkah"
+        },
+        {
+            "before": "mecca",
+            "after": "makkah"
+        },
+        {
+            "before": "sani",
+            "after": "tsani"
+        },
+        {
+            "before": "tasrik",
+            "after": "tasyriq"
+        },
+        {
+            "before": "wusta",
+            "after": "wustha"
+        },
+        {
+            "before": "kurban",
+            "after": "qurban"
+        },
+        {
+            "before": "qorban",
+            "after": "qurban"
+        },
+        {
+            "before": "tamatu",
+            "after": "tamattu"
+        },
+        {
+            "before": "wudu",
+            "after": "wudhu"
+        },
+        {
+            "before": "wudlhu",
+            "after": "wudhu"
+        },
+        {
+            "before": "dzulhijah",
+            "after": "dzulhijjah"
+        },
+        {
+            "before": "julhijah",
+            "after": "ydzulhijjah"
+        },
+        {
+            "before": "salat",
+            "after": "shalat"
+        },
+        {
+            "before": "sholat",
+            "after": "shalat"
+        },
+        {
+            "before": "solat",
+            "after": "shalat"
+        },
+        {
+            "before": "safa",
+            "after": "shafa"
+        },
+        {
+            "before": "shofa",
+            "after": "shafa"
+        },
+        {
+            "before": "jamrah",
+            "after": "jumrah"
+        },
+        {
+            "before": "jumroh",
+            "after": "jumrah"
+        },
+        {
+            "before": "tdk",
+            "after": "tidak"
+        },
+        {
+            "before": "klu",
+            "after": "kalau"
+        },
+        {
+            "before": "utk",
+            "after": "untuk"
+        },
+        {
+            "before": "sy",
+            "after": "saya"
+        },
+        {
+            "before": "kpn",
+            "after": "kapan"
+        },
+        {
+            "before": "blh",
+            "after": "boleh"
+        },
+        {
+            "before": "blm",
+            "after": "belum"
+        },
+        {
+            "before": "jedah",
+            "after": "jeddah"
+        },
+        {
+            "before": "udzur",
+            "after": "uzur"
         }
     ]
 }

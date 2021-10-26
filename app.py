@@ -15,7 +15,7 @@ app = Flask(__name__)
 # load data using Python JSON module
 dataset = []
 questions = [] # menggunkan question yang telah di streaming sebelumnya
-with open('data.json','r') as f:
+with open('dataset.json','r') as f:
     data = json.loads(f.read())
 
 # add dataset from data
@@ -23,12 +23,12 @@ for i in range(len(data['items'])):
     dataset.append(data['items'])
 
 # load cnn model
-model = load_model("cnn_steaming_v2.h5")
-labels = ['armuzna', 'badal', 'dam', 'haji', 'ihram', 'jumrah','manasik','miqat', 'perempuan', 'sai','sakit','tahalul', 'tempat_khusus', 'thawaf', 'umrah']
+model = load_model("model.h5")
+labels = ['armuzna', 'badal', 'dam', 'haji', 'ihram', 'jumrah','miqat', 'perempuan', 'sai', 'tahallul', 'tempat_khusus', 'thawaf', 'umrah']
 
 # Tokonizer
 for i in range(len(dataset)):
-    questions.append(data['items'][i]["steaming"])
+    questions.append(data['items'][i]["normalized"])
 tokenizer = Tokenizer()
 tokenizer.fit_on_texts(questions)
 
@@ -37,7 +37,7 @@ tokenizer.fit_on_texts(questions)
 with open('normalisasi.json','r') as f:
     data_normalization = json.loads(f.read())
 
-# Inisialisasi Untuk Streaming
+# Inisialisasi Untuk Stemming
 factory = StemmerFactory()
 stemmer = factory.create_stemmer()
     
@@ -63,6 +63,7 @@ def question():
         tempRake, qRake = rake_question(npQuestion, preQuest)
         tempCounter, counterQuestUser = counter_result(tempRake, qRake)
         maxScore, indexQuest = score_cosine(tempCounter, counterQuestUser)
+        
         return jsonify({
             # bisa menampilkan hasil RAKE
             'label' : label,
@@ -83,7 +84,6 @@ def test_rake():
 # Melakukan Preprocesing terlebih dahulu terhadap Question
 # 1. Regex (hapus tanda baca & lowercase)
 # 2. Normalization
-# 3. Streaming
 
 character = '!"#$%&()*+,./:;<=>?@[\]^_`{|}~\'0123456789'
 # Defining the function to remove punctuation
@@ -109,8 +109,8 @@ def preprocesing(quest):
     # Normalisasi 
     norm = normalization(tokens)
     # Streaming (Menggunakan Library Sastrawi)
-    streaming = stemmer.stem(norm)
-    return streaming
+    # streaming = stemmer.stem(norm)
+    return norm
 
 # ========  END TEXT PREPOCESSING   =============
 
@@ -129,7 +129,7 @@ def get_df(label):
     npAnswers = []
     for i in range(len(dataset)):
         if data['items'][i]["labels"] == label:
-            npQuestions.append(data['items'][i]['steaming'])
+            npQuestions.append(data['items'][i]['normalized'])
             npAnswers.append(data['items'][i]['answers'])
     return npQuestions,npAnswers
 
@@ -150,12 +150,12 @@ def counter_result(tempRake, qRake):
     counterQuestUser = counter(qRake)
     return tempCounter, counterQuestUser
 
-# 4. konver menjadi counter
+# 4. Konver menjadi counter
 def counter(quest):
     counter = Counter(quest)
     return counter
 
-# 5. mencari cosine similiarity
+# 5. Mencari cosine similiarity
 def score_cosine(tempCounter, counterQuestUser):
     scoresCosine = []
     for i in range(len(tempCounter)):
@@ -172,9 +172,3 @@ def counter_cosine_similarity(c1, c2):
     magA = math.sqrt(sum(c1.get(k, 0)**2 for k in terms))
     magB = math.sqrt(sum(c2.get(k, 0)**2 for k in terms))
     return dotprod / (magA * magB)
-
-
-
-    
-
-
