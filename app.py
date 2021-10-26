@@ -76,7 +76,7 @@ def question():
         if maxScore != 0:
             return jsonify({
                 'label' : label,
-                'max_score ': str(maxScore),
+                'max_score': str(maxScore),
                 'question_rake': qRake,
                 'quest': npQuestion[indexQuest],
                 'ans': npAnswer[indexQuest],
@@ -84,7 +84,7 @@ def question():
         else:
            return jsonify({
                 'label' : label,
-                'max_score ': str(maxScore),
+                'max_score': str(maxScore),
                 'question_rake': qRake,
                 'quest': npQuestion[indexQuest],
                 'ans': keterangan[random.randint(0,4)] + " "+ label,
