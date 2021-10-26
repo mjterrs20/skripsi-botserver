@@ -1,6 +1,7 @@
 import json
 import rake
 import math
+import random
 import numpy as np
 from flask import Flask, request, jsonify, render_template
 from keras.models import load_model
@@ -25,6 +26,13 @@ for i in range(len(data['items'])):
 # load cnn model
 model = load_model("model.h5")
 labels = ['armuzna', 'badal', 'dam', 'haji', 'ihram', 'jumrah','miqat', 'perempuan', 'sai', 'tahallul', 'tempat_khusus', 'thawaf', 'umrah']
+
+# Keterangan
+keterangan = ['Maaf marbot tidak dapat menjawab, silahkan tanya lagi tentang',
+             'Marbot tidak dapat menjawab, sialahkan tanyakan mengenai',
+             'Marbot tidak mengerti silahkan bertanya tentang',
+             'Marbot belum paham dengan yang anda tanyakan silahkan tenyakan lagi tentang',
+             'Marbot saat ini hanya bisa menjawab beberapa hal saja, silahkan tanyakan lagi mengenai']
 
 # Tokonizer
 for i in range(len(dataset)):
@@ -63,15 +71,24 @@ def question():
         tempRake, qRake = rake_question(npQuestion, preQuest)
         tempCounter, counterQuestUser = counter_result(tempRake, qRake)
         maxScore, indexQuest = score_cosine(tempCounter, counterQuestUser)
-        
-        return jsonify({
-            # bisa menampilkan hasil RAKE
-            'label' : label,
-            'max_score ': str(maxScore),
-            'question_rake': qRake,
-            'quest': npQuestion[indexQuest],
-            'ans': npAnswer[indexQuest],
-        })
+
+        # cek apakah maxScore sama dengan 0 atau tidak
+        if maxScore != 0:
+            return jsonify({
+                'label' : label,
+                'max_score ': str(maxScore),
+                'question_rake': qRake,
+                'quest': npQuestion[indexQuest],
+                'ans': npAnswer[indexQuest],
+            })
+        else:
+           return jsonify({
+                'label' : label,
+                'max_score ': str(maxScore),
+                'question_rake': qRake,
+                'quest': npQuestion[indexQuest],
+                'ans': keterangan[random.randint(0,4)] + " "+ label,
+            }) 
     except KeyError as e:
         return str(e)
 
@@ -108,8 +125,8 @@ def preprocesing(quest):
     tokens = res.split()
     # Normalisasi 
     norm = normalization(tokens)
-    # Streaming (Menggunakan Library Sastrawi)
-    # streaming = stemmer.stem(norm)
+    # Steamming (Menggunakan Library Sastrawi)
+    # steamming = stemmer.stem(norm)
     return norm
 
 # ========  END TEXT PREPOCESSING   =============
